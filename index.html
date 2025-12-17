@@ -5,36 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>sympathy</title>
   <style>
-    body {
-      margin: 0;
-      background: #000;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-    }
-    #wrap {
-      width: min(960px, 95vw);
-      text-align: center;
-    }
-    button {
-      font-size: 20px;
-      padding: 16px 26px;
-      border: 0;
-      border-radius: 12px;
-      cursor: pointer;
-      margin-bottom: 16px;
-    }
-    video {
-      width: 100%;
-      max-width: 960px;
-      background: #000;
-    }
+    body { margin:0; background:#000; min-height:100vh; display:grid; place-items:center; }
+    #wrap { width:min(960px,95vw); text-align:center; }
+    button { font-size:20px; padding:16px 26px; border:0; border-radius:12px; cursor:pointer; margin-bottom:16px; }
+    video { width:100%; max-width:960px; background:#000; }
   </style>
 </head>
 
 <body>
   <div id="wrap">
-    <button id="start">▶ Start</button>
+    <button id="start">▶ Start (mit Ton)</button>
 
     <video id="video" muted playsinline preload="auto">
       <source src="sympathy.mp4" type="video/mp4">
@@ -48,10 +28,16 @@
 
     btn.addEventListener("click", async () => {
       try {
-        btn.style.display = "none";
+        // Start zuverlässig (stumm)
         await video.play();
+
+        // Dann Ton aktivieren (immer noch innerhalb derselben User-Aktion)
+        video.muted = false;
+        video.volume = 1.0;
+
+        btn.style.display = "none";
       } catch (e) {
-        alert("Video konnte nicht gestartet werden.");
+        alert("Video konnte nicht gestartet werden. Bitte nochmal klicken.");
       }
     });
   </script>
